@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FinanzApp — Registro</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <main class="auth-wrapper">
+      <section class="auth-card">
+        <header class="brand">
+          <img src="assets/logo.svg" alt="Logo FinanzApp" class="brand__logo" />
+          <h1 class="brand__name">FinanzApp</h1>
+        </header>
+
+        <h2 class="auth-title">Crear cuenta</h2>
+
+        <!-- ✅ IDs y names alineados con backend: nombre, email, contrasena, divisaPref -->
+        <form id="registerForm" class="form" novalidate>
+          <div class="form__group">
+            <label for="nombre">Nombre</label>
+            <input id="nombre" name="nombre" type="text" autocomplete="name" required placeholder="Tu nombre" />
+          </div>
+
+          <div class="form__group">
+            <label for="email">Correo electrónico</label>
+            <input id="email" name="email" type="email" autocomplete="email" required placeholder="tu@correo.com" />
+          </div>
+
+          <div class="form__group">
+            <label for="contrasena">Contraseña</label>
+            <div class="password-field">
+              <input id="contrasena" name="contrasena" type="password" autocomplete="new-password" required placeholder="Mín. 8 caracteres" />
+              <button type="button" class="btn btn--ghost btn--sm" data-toggle="password" aria-controls="contrasena" aria-label="Mostrar u ocultar contraseña">👁️</button>
+            </div>
+            <small class="hint">Usa 8+ caracteres con mayúscula, minúscula, número y símbolo.</small>
+          </div>
+
+          <div class="form__group">
+            <label for="contrasena2">Repetir contraseña</label>
+            <div class="password-field">
+              <input id="contrasena2" name="contrasena2" type="password" autocomplete="new-password" required placeholder="Repite la contraseña" />
+              <button type="button" class="btn btn--ghost btn--sm" data-toggle="password" aria-controls="contrasena2" aria-label="Mostrar u ocultar contraseña">👁️</button>
+            </div>
+          </div>
+
+          <ul id="passwordChecklist" class="checklist" aria-live="polite">
+            <li data-check="len">8+ caracteres</li>
+            <li data-check="upper">Mayúscula</li>
+            <li data-check="lower">Minúscula</li>
+            <li data-check="number">Número</li>
+            <li data-check="symbol">Símbolo</li>
+          </ul>
+
+          <div class="form__group">
+            <label for="divisaPref">Divisa preferida</label>
+            <select id="divisaPref" name="divisaPref" required>
+              <option value="COP">Peso colombiano (COP)</option>
+              <option value="USD">Dólar estadounidense (USD)</option>
+              <option value="EUR">Euro (EUR)</option>
+              <option value="MXN">Peso mexicano (MXN)</option>
+            </select>
+          </div>
+
+          <div id="registerError" class="form__error" aria-live="polite"></div>
+
+          <button type="submit" class="btn btn--primary btn--full">Crear cuenta</button>
+        </form>
+
+        <p class="auth-alt">¿Ya tienes cuenta? <a href="index.html">Inicia sesión</a></p>
+      </section>
+    </main>
+
+    <script src="js/config.js" defer></script>
+    <script src="js/api.js" defer></script>
+    <script src="js/app.js" defer></script>
+  </body>
+</html>

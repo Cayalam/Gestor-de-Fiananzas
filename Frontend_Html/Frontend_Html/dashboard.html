@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinanzApp — Panel</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="brand">
+            <img src="assets/logo.svg" alt="Logo FinanzApp" class="brand__logo">
+            <span class="brand__text">FinanzApp</span>
+        </div>
+
+        <nav class="nav">
+            <a href="#" class="nav__link active" data-view="dashboard">
+                <i class="nav__icon">📊</i>
+                <span class="nav__text">Dashboard</span>
+            </a>
+            <a href="#" class="nav__link" data-view="transacciones">
+                <i class="nav__icon">💰</i>
+                <span class="nav__text">Transacciones</span>
+            </a>
+            <a href="#" class="nav__link" data-view="categorias">
+                <i class="nav__icon">🏷️</i>
+                <span class="nav__text">Categorías</span>
+            </a>
+            <a href="#" class="nav__link" data-view="bolsillos">
+                <i class="nav__icon">👝</i>
+                <span class="nav__text">Bolsillos</span>
+            </a>
+            <a href="#" class="nav__link" data-view="grupos">
+                <i class="nav__icon">👥</i>
+                <span class="nav__text">Grupos</span>
+            </a>
+        </nav>
+
+        <div class="user">
+            <div class="user__avatar">
+                <img src="https://ui-avatars.com/api/?name=Usuario&background=6C5DD3&color=fff" alt="Avatar" class="user__img">
+            </div>
+            <div class="user__info">
+                <strong class="user__name">Usuario</strong>
+                <small class="user__email">usuario@email.com</small>
+            </div>
+            <button id="logoutBtn" class="user__logout" title="Cerrar sesión">🚪</button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Dashboard View -->
+        <div id="dashboardView" class="view">
+            <header class="header">
+                <h1 class="header__title">Dashboard</h1>
+                <div class="header__actions">
+                    <button id="nuevaTransaccionBtn" class="btn btn--primary">Nueva transacción</button>
+                </div>
+            </header>
+
+            <!-- Stats Grid -->
+            <div class="stats">
+                <div class="stat-card">
+                    <h3 class="stat-card__label">Balance total</h3>
+                    <strong id="balanceTotal" class="stat-card__value">0.00 €</strong>
+                </div>
+                <div class="stat-card">
+                    <h3 class="stat-card__label">Ingresos del mes</h3>
+                    <strong id="ingresosMes" class="stat-card__value">0.00 €</strong>
+                </div>
+                <div class="stat-card">
+                    <h3 class="stat-card__label">Gastos del mes</h3>
+                    <strong id="gastosMes" class="stat-card__value">0.00 €</strong>
+                </div>
+                <div class="stat-card">
+                    <h3 class="stat-card__label">Balance neto</h3>
+                    <strong id="balanceNeto" class="stat-card__value">0.00 €</strong>
+                </div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="dashboard-grid">
+                <!-- Bolsillos -->
+                <section class="card">
+                    <header class="card__header">
+                        <h2 class="card__title">Bolsillos</h2>
+                        <button id="nuevoBolsilloBtn" class="btn btn--ghost btn--icon">+</button>
+                    </header>
+                    <div id="bolsillosList" class="card__content"></div>
+                </section>
+
+                <!-- Categorías -->
+                <section class="card">
+                    <header class="card__header">
+                        <h2 class="card__title">Categorías</h2>
+                        <button id="nuevaCategoriaBtn" class="btn btn--ghost btn--icon">+</button>
+                    </header>
+                    <div id="categoriasList" class="card__content"></div>
+                </section>
+
+                <!-- Últimas Transacciones -->
+                <section class="card">
+                    <header class="card__header">
+                        <h2 class="card__title">Últimas Transacciones</h2>
+                        <button class="btn btn--ghost btn--icon" onclick="app.switchView('transacciones')">→</button>
+                    </header>
+                    <div id="transaccionesList" class="card__content"></div>
+                </section>
+
+                <!-- Grupos -->
+                <section class="card">
+                    <header class="card__header">
+                        <h2 class="card__title">Mis Grupos</h2>
+                        <button id="nuevoGrupoBtn" class="btn btn--ghost btn--icon">+</button>
+                    </header>
+                    <div id="gruposList" class="card__content"></div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Other Views -->
+        <div id="transaccionesView" class="view hidden">
+            <header class="header">
+                <h1 class="header__title">Transacciones</h1>
+                <div class="header__actions">
+                    <button id="nuevaTransaccionBtn2" class="btn btn--primary">Nueva transacción</button>
+                </div>
+            </header>
+            <div id="transaccionesGrid" class="grid"></div>
+        </div>
+
+        <div id="categoriasView" class="view hidden">
+            <header class="header">
+                <h1 class="header__title">Categorías</h1>
+                <div class="header__actions">
+                    <button id="nuevaCategoriaBtn2" class="btn btn--primary">Nueva categoría</button>
+                </div>
+            </header>
+            <div id="categoriasGrid" class="categorias-grid"></div>
+        </div>
+
+        <div id="bolsillosView" class="view hidden">
+            <header class="header">
+                <h1 class="header__title">Bolsillos</h1>
+                <div class="header__actions">
+                    <button id="nuevoBolsilloBtn2" class="btn btn--primary">Nuevo bolsillo</button>
+                </div>
+            </header>
+            <div id="bolsillosGrid" class="bolsillos-grid"></div>
+        </div>
+
+        <div id="gruposView" class="view hidden">
+            <header class="header">
+                <h1 class="header__title">Grupos</h1>
+                <div class="header__actions">
+                    <button id="nuevoGrupoBtn2" class="btn btn-primary">Nuevo grupo</button>
+                </div>
+            </header>
+            <div id="gruposGrid" class="grupos-grid"></div>
+        </div>
+    </main>
+
+    <!-- Modals -->
+    <div id="transaccionModal" class="modal">
+        <div class="modal__content">
+            <header class="modal__header">
+                <h2 class="modal__title">Nueva Transacción</h2>
+                <button class="modal__close" data-close-modal>&times;</button>
+            </header>
+            <form id="transaccionForm" class="modal__body">
+                <input type="hidden" id="transaccionId" name="id" value="">
+                <input type="hidden" id="transaccionTipoOriginal" name="tipoOriginal" value="">
+                <div class="form-group">
+                    <label for="tipo">Tipo</label>
+                    <select id="tipo" name="tipo" required>
+                        <option value="">Selecciona un tipo</option>
+                        <option value="ingreso">Ingreso</option>
+                        <option value="egreso">Gasto</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">Descripción</label>
+                    <input type="text" id="descripcion" name="descripcion" placeholder="Ej: Pago de nómina, Compra supermercado..." required>
+                </div>
+                <div class="form-group">
+                    <label for="monto">Monto (€)</label>
+                    <input type="number" id="monto" name="monto" step="0.01" min="0" placeholder="0.00" required>
+                </div>
+                <div class="form-group">
+                    <label for="categoriaId">Categoría</label>
+                    <select id="categoriaId" name="categoriaId" required>
+                        <option value="">Selecciona una categoría</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bolsilloId">Bolsillo</label>
+                    <select id="bolsilloId" name="bolsilloId" required>
+                        <option value="">Selecciona un bolsillo</option>
+                    </select>
+                </div>
+                <div class="modal__footer">
+                    <button type="button" class="btn btn-secondary" data-close-modal>Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="categoriaModal" class="modal">
+        <div class="modal__content">
+            <header class="modal__header">
+                <h2 class="modal__title">Nueva Categoría</h2>
+                <button class="modal__close" data-close-modal>&times;</button>
+            </header>
+            <form id="categoriaForm" class="modal__body">
+                <input type="hidden" id="categoriaId" name="id">
+                <div class="form-group">
+                    <label for="nombreCategoria">Nombre</label>
+                    <input type="text" id="nombreCategoria" name="nombre" placeholder="Ej: Salario, Alimentación..." required>
+                </div>
+                <div class="form-group">
+                    <label for="tipoCategoria">Tipo</label>
+                    <select id="tipoCategoria" name="tipo" required>
+                        <option value="">Selecciona un tipo</option>
+                        <option value="ingreso">Ingreso</option>
+                        <option value="gasto">Gasto</option>
+                    </select>
+                </div>
+                <div class="modal__footer">
+                    <button type="button" class="btn btn-secondary" data-close-modal>Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="bolsilloModal" class="modal">
+        <div class="modal__content">
+            <header class="modal__header">
+                <h2 class="modal__title">Nuevo Bolsillo</h2>
+                <button class="modal__close" data-close-modal>&times;</button>
+            </header>
+            <form id="bolsilloForm" class="modal__body">
+                <input type="hidden" id="bolsilloId" name="id">
+                <div class="form-group">
+                    <label for="nombreBolsillo">Nombre</label>
+                    <input type="text" id="nombreBolsillo" name="nombre" placeholder="Ej: Ahorros, Vacaciones..." required>
+                </div>
+                <div class="form-group">
+                    <label for="saldoBolsillo">Saldo inicial</label>
+                    <input type="number" id="saldoBolsillo" name="saldo" step="0.01" min="0" value="0" placeholder="0.00" required>
+                </div>
+                <div class="modal__footer">
+                    <button type="button" class="btn btn-secondary" data-close-modal>Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="grupoModal" class="modal">
+        <div class="modal__content modal__content--large">
+            <header class="modal__header">
+                <h2 class="modal__title">Nuevo Grupo</h2>
+                <button class="modal__close" data-close-modal>&times;</button>
+            </header>
+            <form id="grupoForm" class="modal__body">
+                <div class="form-group">
+                    <label for="nombreGrupo">Nombre del Grupo</label>
+                    <input type="text" id="nombreGrupo" name="nombre" placeholder="Ej: Familia, Amigos, Compañeros..." required>
+                </div>
+                <div class="form-group">
+                    <label for="descripcionGrupo">Descripción</label>
+                    <textarea id="descripcionGrupo" name="descripcion" placeholder="Describe el propósito del grupo..." rows="3" required></textarea>
+                </div>
+                
+                <!-- Sección de miembros -->
+                <div class="form-group">
+                    <label for="emailMiembro">Añadir Miembros</label>
+                    <div class="add-member-container">
+                        <input 
+                            type="email" 
+                            id="emailMiembro" 
+                            placeholder="Escribe el email del usuario (ej: usuario@email.com)"
+                            class="add-member-input"
+                        >
+                        <button type="button" id="addMemberBtn" class="btn btn-primary btn-sm">
+                            <span>➕</span> Añadir
+                        </button>
+                    </div>
+                    <small class="form-hint">Busca usuarios por su email registrado</small>
+                </div>
+                
+                <!-- Lista de miembros añadidos -->
+                <div class="form-group">
+                    <label>Miembros del Grupo</label>
+                    <div id="membersList" class="members-list">
+                        <p class="empty-message-small">No hay miembros añadidos. Añade usuarios por su email.</p>
+                    </div>
+                </div>
+                
+                <div class="modal__footer">
+                    <button type="button" class="btn btn-secondary" data-close-modal>Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Crear Grupo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Detalles del Grupo -->
+    <div id="detallesGrupoModal" class="modal">
+        <div class="modal__content modal__content--large">
+            <header class="modal__header">
+                <h2 class="modal__title" id="detallesGrupoTitulo">Detalles del Grupo</h2>
+                <button class="modal__close" data-close-modal>&times;</button>
+            </header>
+            <div class="modal__body">
+                <!-- Campo oculto para guardar el ID del grupo -->
+                <input type="hidden" id="detallesGrupoId">
+                
+                <!-- Información del grupo -->
+                <div class="grupo-detalles-info">
+                    <div class="info-row">
+                        <span class="info-label">📛 Nombre:</span>
+                        <span class="info-value" id="detallesNombre"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📝 Descripción:</span>
+                        <span class="info-value" id="detallesDescripcion"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📅 Creado:</span>
+                        <span class="info-value" id="detallesFecha"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">👥 Miembros:</span>
+                        <span class="info-value" id="detallesCantidad"></span>
+                    </div>
+                </div>
+
+                <!-- Lista de miembros -->
+                <div class="grupo-detalles-miembros">
+                    <h3 class="section-title">Miembros del Grupo</h3>
+                    <div id="detallesMiembrosList" class="miembros-detalle-list">
+                        <!-- Se llenará dinámicamente -->
+                    </div>
+                </div>
+                
+                <div class="modal__footer">
+                    <button type="button" class="btn btn-secondary" id="btnCerrarDetalles">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="btnEditarGrupo">
+                        <span>✏️</span> Editar Grupo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Editar Grupo -->
+    <div id="editarGrupoModal" class="modal">
+        <div class="modal__content modal__content--large">
+            <header class="modal__header">
+                <h2 class="modal__title">✏️ Editar Grupo</h2>
+                <button class="modal__close" data-close-modal>&times;</button>
+            </header>
+            <form id="editarGrupoForm" class="modal__body">
+                <input type="hidden" id="editGrupoId" name="id">
+                
+                <div class="form-group">
+                    <label for="editNombreGrupo">Nombre del Grupo</label>
+                    <input type="text" id="editNombreGrupo" name="nombre" placeholder="Nombre del grupo..." required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editDescripcionGrupo">Descripción</label>
+                    <textarea id="editDescripcionGrupo" name="descripcion" placeholder="Describe el propósito del grupo..." rows="3" required></textarea>
+                </div>
+                
+                <!-- Sección para añadir nuevos miembros -->
+                <div class="form-group">
+                    <label for="nuevoMiembroEmail">➕ Añadir Nuevos Miembros</label>
+                    <div class="add-member-container">
+                        <input 
+                            type="email" 
+                            id="nuevoMiembroEmail" 
+                            placeholder="Email del usuario a añadir..."
+                            class="add-member-input"
+                        >
+                        <button type="button" id="btnAnadirMiembro" class="btn btn-primary btn-sm">
+                            <span>➕</span> Añadir
+                        </button>
+                    </div>
+                    <small class="form-hint">Busca usuarios por su email registrado</small>
+                </div>
+                
+                <!-- Lista de miembros actuales -->
+                <div class="form-group">
+                    <label>👥 Miembros del Grupo</label>
+                    <div id="editMiembrosList" class="edit-members-list">
+                        <!-- Se llenará dinámicamente -->
+                    </div>
+                </div>
+                
+                <div class="modal__footer">
+                    <button type="button" class="btn btn-secondary" id="btnCerrarEditar">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">💾 Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

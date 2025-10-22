@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FinanzApp — Iniciar sesión</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <main class="auth-wrapper">
+      <section class="auth-card">
+        <header class="brand">
+          <img src="assets/logo.svg" alt="Logo FinanzApp" class="brand__logo" />
+          <h1 class="brand__name">FinanzApp</h1>
+        </header>
+
+        <h2 class="auth-title">Iniciar sesión</h2>
+
+        <form id="loginForm" class="form" novalidate>
+          <div class="form__group">
+            <label for="email">Correo electrónico</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              placeholder="tu@correo.com"
+            />
+          </div>
+
+          <div class="form__group">
+            <label for="contrasena">Contraseña</label>
+            <div class="password-field">
+              <input
+                id="contrasena"
+                name="contrasena"
+                type="password"
+                autocomplete="current-password"
+                required
+                placeholder="Tu contraseña"
+              />
+              <button
+                type="button"
+                class="btn btn--ghost btn--sm"
+                data-toggle="password"
+                aria-controls="contrasena"
+                aria-label="Mostrar u ocultar contraseña"
+              >
+                👁️
+              </button>
+            </div>
+          </div>
+
+          <div id="loginError" class="form__error" aria-live="polite"></div>
+
+          <button type="submit" class="btn btn--primary btn--full">Entrar</button>
+        </form>
+
+        <p class="auth-alt">
+          ¿No tienes cuenta?
+          <a href="register.html">Crea una aquí</a>
+        </p>
+      </section>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
